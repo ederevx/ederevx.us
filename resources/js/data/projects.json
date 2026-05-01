@@ -1,0 +1,28 @@
+{
+    "projects": [
+        {
+            "title": "ederevx.us",
+            "header": "Personal Website",
+            "subheader": "HTML, CSS, JavaScript, PHP",
+            "href": "https://github.com/ederevx/ederevx.us"
+        },
+        {
+            "title": "Android Build Scripts for OnePlus 5T",
+            "header": "Linux Bash Script",
+            "subheader": "Bash/Shell Scripting",
+            "href": "https://github.com/ederevx/android_scripts"
+        },
+        {
+            "title": "X-FT Kernel for OnePlus 5T",
+            "header": "Linux Kernel, Version 4.14",
+            "subheader": "C, Makefile, Shell",
+            "href": "https://github.com/ederevx/x-ft_kernel_oneplus_msm8998"
+        },
+        {
+            "title": "X Kernel for OnePlus 5T",
+            "header": "Linux Kernel, Version 4.4",
+            "subheader": "C, Makefile, Shell",
+            "href": "https://github.com/ederevx/x_kernel_oneplus_msm8998"
+        }
+    ]
+}

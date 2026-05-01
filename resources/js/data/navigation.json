@@ -1,0 +1,16 @@
+{
+    "navigation": [
+        {
+            "name": "about",
+            "href": "/"
+        },
+        {
+            "name": "projects",
+            "href": "/projects"
+        },
+        {
+            "name": "blog",
+            "href": "/blog"
+        }
+    ]
+}
