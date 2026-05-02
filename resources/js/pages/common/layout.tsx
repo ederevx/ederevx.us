@@ -149,20 +149,29 @@ export function BaseLayout({
     title: string,
     children?: React.ReactNode,
 }) {
-    // Generate a unique ID for the dark mode target element
-    const darkModeTarget = React.useId();
-
-    // The main element that will have the dark mode by default
+    // Handle dark class on root DOM in BaseLayout
     React.useEffect(() => {
-        const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const element = document.getElementById(darkModeTarget);
-        element?.classList.toggle('dark', isDark);
-    }, [ darkModeTarget ]);
+        const windowDark = window.matchMedia('(prefers-color-scheme: dark)');
 
+        const handleDarkMode = () => {
+            const element = document.documentElement;
+            const isDark = windowDark.matches;
+            element?.classList.toggle('dark', isDark);
+        };
+
+        windowDark.addEventListener('change', handleDarkMode);
+
+        // Trigger whenever the website is reloaded by SSR
+        handleDarkMode();
+
+        return () => windowDark.removeEventListener('change', handleDarkMode);
+    }, [ ]);
+
+    // Hide the main class first then reveal at hydration
     return (
         <>
             <Head title={title} />
-            <main id={darkModeTarget} className="dark bg-background text-foreground min-h-screen transition-colors duration-300" {...props}>
+            <main className="bg-background text-foreground min-h-screen transition-all duration-300" {...props}>
                 <section className="flex w-full h-full min-h-screen">
                     <div className="container m-10">
                         <NavigationBar />

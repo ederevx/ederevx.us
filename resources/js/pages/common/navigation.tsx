@@ -1,4 +1,4 @@
-import { Link } from "@inertiajs/react";
+import * as Inertia from "@inertiajs/react";
 
 import * as React from "react";
 
@@ -21,6 +21,7 @@ function NavigationMenuContent({
     name: string, 
     href: string 
 }) {
+    // Generate unique ID per nav link
     const id = React.useId();
     const baseClass = cn(
         navigationMenuTriggerStyle(), // Base styles for the navigation menu trigger
@@ -32,22 +33,33 @@ function NavigationMenuContent({
     const activeClass = "active text-primary text-lg max-sm:text-2xl";
 
     React.useEffect(() => {
-        const isActive = window.location.pathname === href;
         const element = document.getElementById(id);
 
-        if (!element) {
-            return;
-        }
+        const handlePathname = () => {
+            const isActive = window.location.pathname.toLowerCase() === href.toLowerCase();
 
-        element.classList = cn(baseClass, isActive ? activeClass : inactiveClass);
-    }, [ baseClass, activeClass, inactiveClass, id, href ]);
+            if (!element) {
+                return;
+            }
+
+            element.classList = cn(baseClass, isActive ? activeClass : inactiveClass);
+        };
+
+        // Trigger whenever inertia changes path at url
+        handlePathname();
+
+        // Also detect changes when popstate gets triggered
+        window.addEventListener('popstate', handlePathname);
+
+        return () => window.removeEventListener('popstate', handlePathname);
+    }, [ baseClass, activeClass, inactiveClass, href, id ]);
 
     return (
         <>
             <NavigationMenuLink asChild className={cn(baseClass, inactiveClass)}>
-                <Link id={id} href={href}>
+                <Inertia.Link id={id} href={href}>
                     {name}
-                </Link>
+                </Inertia.Link>
             </NavigationMenuLink>
         </>
     )

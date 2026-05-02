@@ -2,8 +2,6 @@ import { Separator } from "@/components/ui/separator"
 
 import { projects } from "@/data/projects.json";
 
-import { cn } from "@/lib/utils";
-
 import { 
     BaseLayout,
     HeaderSectionLayout,
