@@ -13,6 +13,25 @@ class AppPreset implements Preset
 {
     public function configure(Policy $policy): void
     {
+        // Establish base preset based on basic laravel-csp preset
+        $policy
+            ->add(Directive::BASE, Keyword::NONE)
+            ->add(Directive::CONNECT, Keyword::SELF)
+            ->add(Directive::DEFAULT, Keyword::SELF)
+            ->add(Directive::FORM_ACTION, Keyword::SELF)
+            ->add(Directive::IMG, Keyword::SELF)
+            ->add(Directive::MEDIA, Keyword::SELF)
+            ->add(Directive::OBJECT, Keyword::NONE)
+            ->add(Directive::SCRIPT, Keyword::SELF)
+            ->add(Directive::STYLE, Keyword::SELF)
+            ->addNonce(Directive::SCRIPT)
+            ->addNonce(Directive::STYLE);
+
+        // Implement frame-ancestors
+        $policy
+            ->add(Directive::FRAME_ANCESTORS, Keyword::SELF);
+
+        // Needed by react/shadcn
         $policy
             ->add(Directive::STYLE, 'https://fonts.bunny.net')
             ->add(Directive::FONT, 'https://fonts.bunny.net');
