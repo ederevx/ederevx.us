@@ -15,9 +15,15 @@ import {
 } from "./common/layout";
 
 export default function About() {
+    const metaProps = [
+        { name: "description", content: "Edrick Sinsuan's personal website overview" },
+        { name: "keywords", content: "Portfolio, Computer Engineer, Programmer, Open-source, Software Developer"},
+        { name: "author", content: "Edrick Sinsuan" },
+    ];
+
     return (
         <>
-            <BaseLayout title="About">
+            <BaseLayout title="About" metaProps={metaProps}>
                 <div className="flex flex-row flex-wrap gap-4">
                     <div className="max-w-2xl w-full">
                     <HeaderSectionLayout

@@ -144,10 +144,12 @@ export function HeaderSectionLayout({
 export function BaseLayout({
     title,
     children,
+    metaProps,
     ...props
 }: React.ComponentProps<"main"> & {
     title: string,
     children?: React.ReactNode,
+    metaProps?: {name: string, content: string}[],
 }) {
     // Handle dark class on root DOM in BaseLayout
     React.useEffect(() => {
@@ -170,7 +172,11 @@ export function BaseLayout({
     // Hide the main class first then reveal at hydration
     return (
         <>
-            <Head title={title} />
+            <Head title={title}>
+                {metaProps?.map((prop) => 
+                    <meta name={prop.name} content={prop.content} />
+                )}
+            </Head>
             <main className="bg-background text-foreground min-h-screen transition-all duration-300" {...props}>
                 <section className="flex w-full h-full min-h-screen">
                     <div className="container m-10">
