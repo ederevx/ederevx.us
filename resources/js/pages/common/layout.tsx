@@ -179,7 +179,7 @@ export function BaseLayout({
                             script-src 'self' 127.0.0.1:5173; 
                             connect-src 'self' ws://127.0.0.1:5173; 
                             img-src 'self'; 
-                            style-src 'self' 'unsafe-inline' https://fonts.bunny.net;
+                            style-src 'self' 'unsafe-inline';
                             font-src 'self' https://fonts.bunny.net 127.0.0.1:5173;"/>
                 {metaProps?.map((prop) => 
                     <meta name={prop.name} content={prop.content} />
