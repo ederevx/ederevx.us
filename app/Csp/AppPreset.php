@@ -9,6 +9,9 @@ use Spatie\Csp\Keyword;
 use Spatie\Csp\Policy;
 use Spatie\Csp\Preset;
 
+use Spatie\Csp\Presets\CloudflareTurnstile;
+use Spatie\Csp\Presets\CloudflareWebAnalytics;
+
 class AppPreset implements Preset
 {
     public function configure(Policy $policy): void
@@ -29,9 +32,11 @@ class AppPreset implements Preset
             ->addNonce(Directive::SCRIPT)
             ->addNonce(Directive::STYLE);
 
-        // Implement frame-ancestors
-        $policy
-            ->add(Directive::FRAME_ANCESTORS, Keyword::SELF);
+        // Add cloudflare presets
+        $tmp = new CloudflareTurnstile();
+        $tmp->configure($policy);
+        $tmp = new CloudflareWebAnalytics();
+        $tmp->configure($policy);
 
         // Needed by react/shadcn
         $policy
