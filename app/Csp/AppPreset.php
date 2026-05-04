@@ -15,10 +15,12 @@ class AppPreset implements Preset
     {
         // Establish base preset based on basic laravel-csp preset
         $policy
-            ->add(Directive::BASE, Keyword::NONE)
+            ->add(Directive::BASE, Keyword::SELF)
             ->add(Directive::CONNECT, Keyword::SELF)
-            ->add(Directive::DEFAULT, Keyword::SELF)
+            ->add(Directive::DEFAULT, Keyword::NONE)
+            ->add(Directive::FONT, Keyword::SELF)
             ->add(Directive::FORM_ACTION, Keyword::SELF)
+            ->add(Directive::FRAME, Keyword::SELF)
             ->add(Directive::IMG, Keyword::SELF)
             ->add(Directive::MEDIA, Keyword::SELF)
             ->add(Directive::OBJECT, Keyword::NONE)
