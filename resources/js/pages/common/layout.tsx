@@ -154,9 +154,9 @@ export function BaseLayout({
     // Implement CSP as strict as possible depending on app environment
     const CSPconfig = () => {
         if (import.meta.env.VITE_APP_ENV === 'production') {
-            return cn("default-src 'none';", 
-                "script-src 'self'",
-                "connect-src 'self'",
+            return cn("default-src 'none';",
+                "script-src 'self';",
+                "connect-src 'self';",
                 "img-src 'self';",
                 "style-src 'self' 'unsafe-inline' https://fonts.bunny.net;",
                 "font-src 'self' https://fonts.bunny.net;");
