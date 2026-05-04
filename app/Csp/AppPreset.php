@@ -46,6 +46,11 @@ class AppPreset implements Preset
             // For NavigationBar/NavigationMenuList/div
             ->add(Directive::STYLE, 'sha256-KpSV7LuPYEu58+3u9LJr9v5Drm0uIKEv0h3u/+NVNm8=');
 
+        // Add https cloudflare insights URL to script
+        $policy
+            ->add(Directive::CONNECT, 'https://cloudflareinsights.com')
+            ->add(Directive::SCRIPT, 'https://static.cloudflareinsights.com');
+
         // Non-production policies wherein it is ran locally
         if (!App::environment('production')) {
             $policy
