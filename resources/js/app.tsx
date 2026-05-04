@@ -4,7 +4,5 @@ const appName = import.meta.env.VITE_APP_NAME || 'Edrick Sinsuan';
 
 createInertiaApp({
     title: (title) => (title ? `${title} - ${appName}` : appName),
-    progress: {
-        color: '#4B5563',
-    },
+    progress: false, // This is to be implemented with nonce separately
 });

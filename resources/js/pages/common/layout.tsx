@@ -151,25 +151,6 @@ export function BaseLayout({
     children?: React.ReactNode,
     metaProps?: {name: string, content: string}[],
 }) {
-    // Implement CSP as strict as possible depending on app environment
-    const CSPconfig = () => {
-        if (import.meta.env.VITE_APP_ENV === 'production') {
-            return cn("default-src 'none';",
-                "script-src 'self';",
-                "connect-src 'self';",
-                "img-src 'self';",
-                "style-src 'self' 'unsafe-inline' https://fonts.bunny.net;",
-                "font-src 'self' https://fonts.bunny.net;");
-        } else {
-            return cn("default-src 'none';",
-                "script-src 'self' 127.0.0.1:*;",
-                "connect-src 'self' ws://127.0.0.1:*;",
-                "img-src 'self';",
-                "style-src 'self' 'unsafe-inline' https://fonts.bunny.net;",
-                "font-src 'self' https://fonts.bunny.net 127.0.0.1:*;");
-        }
-    };
-
     // Handle dark class on root DOM in BaseLayout
     React.useEffect(() => {
         const windowDark = window.matchMedia('(prefers-color-scheme: dark)');
@@ -192,7 +173,6 @@ export function BaseLayout({
     return (
         <>
             <Head title={title}>
-                <meta http-equiv="Content-Security-Policy" content={CSPconfig()} />
                 {metaProps?.map((prop) => 
                     <meta name={prop.name} content={prop.content} />
                 )}
