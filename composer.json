@@ -42,10 +42,6 @@
         "setup": [
             "composer install --no-dev",
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
-            "@php artisan config:cache",
-            "@php artisan event:cache",
-            "@php artisan route:cache",
-            "@php artisan view:cache",
             "@php artisan optimize",
             "@php artisan key:generate",
             "@php artisan migrate --force",
