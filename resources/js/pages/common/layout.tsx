@@ -173,6 +173,14 @@ export function BaseLayout({
     return (
         <>
             <Head title={title}>
+                {/* Implement CSP as strict as possible */}
+                <meta http-equiv="Content-Security-Policy"
+                    content="default-src 'none'; 
+                            script-src 'self' 127.0.0.1:5173; 
+                            connect-src 'self' ws://127.0.0.1:5173; 
+                            img-src 'self'; 
+                            style-src 'self' 'unsafe-inline';
+                            font-src 'self' https://fonts.bunny.net 127.0.0.1:5173;"/>
                 {metaProps?.map((prop) => 
                     <meta name={prop.name} content={prop.content} />
                 )}
