@@ -11,7 +11,8 @@ return [
      */
     'presets' => [
         App\Csp\AppPreset::class,
-        App\Csp\XFOPreset::class,
+        Spatie\Csp\Presets\CloudflareTurnstile::class,
+        Spatie\Csp\Presets\CloudflareWebAnalytics::class,
     ],
 
     /**
