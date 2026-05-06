@@ -18,6 +18,11 @@ class Post extends Model
         return $this->belongsToMany(Topic::class);
     }
 
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
     /**
      * Show the first 150 characters of the content with an
      * ellipsis, if necessary.
