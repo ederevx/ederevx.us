@@ -121,9 +121,11 @@ export function HeaderSectionLayout({
             <div className={cn("w-full mt-4", className)} {...props}>
                 <div className="flex flex-col gap-2">
                     <h1 className="text-3xl mb-4">{title}</h1>
-                    <h2 className="text-lg text-primary">
-                        {header}
-                    </h2>
+                    {header &&
+                        <h2 className="text-lg text-primary">
+                            {header}
+                        </h2>
+                    }
                     {subheader &&
                         <p className="text-md text-muted-foreground">
                             {subheader}
@@ -180,7 +182,7 @@ export function BaseLayout({
             <main className="bg-background text-foreground min-h-screen transition-all duration-300" {...props}>
                 <section className="flex w-full h-full min-h-screen">
                     <div className="container m-10">
-                        <NavigationBar />
+                        <NavigationBar aria-label="primary-nav" />
                         {children && <div className="flex flex-col gap-2 animate-in fade-in duration-500">{children}</div>}
                     </div>
                 </section>

@@ -14,34 +14,44 @@ import { navigation } from "@/data/navigation.json";
 
 import { cn } from "@/lib/utils";
 
-function NavigationMenuContent({ 
-    name,
-    href
-}: { 
-    name: string, 
-    href: string 
+function NavigationMenuContent({
+    data,
+}: {
+    data: { 
+        name: string, 
+        href: string, 
+    },
 }) {
     // Generate unique ID per nav link
     const id = React.useId();
     const baseClass = cn(
         navigationMenuTriggerStyle(), // Base styles for the navigation menu trigger
-        "hover:text-primary hover:dark:text-primary transition-all duration-300", // Hover styles
-        "max-sm:text-lg", // Responsive text size for smaller screens
-        "animate-fade-in"
+        "hover:text-primary focus:text-primary", // Hover and focus styles
+        "transition-all duration-300"
     );
-    const inactiveClass = "text-gray-500 dark:text-gray-700";
+    // Responsive text size for various screens
+    const inactiveClass = "text-muted text-md max-sm:text-lg";
     const activeClass = "active text-primary text-lg max-sm:text-2xl";
+    // Use relative href to allow pathname detection
+    const hrefTarget = data.href;
 
     React.useEffect(() => {
         const element = document.getElementById(id);
 
-        const handlePathname = () => {
-            const isActive = window.location.pathname.toLowerCase() === href.toLowerCase();
+        if (!element) {
+            return;
+        }
 
-            if (!element) {
+        const handlePathname = () => {
+            const pathname = window.location.pathname.toLowerCase();
+            const target = hrefTarget.toLowerCase();
+
+            if (target === null) {
                 return;
             }
 
+            // Detect cases wherein we are within a child path, excluding direct descendants of root
+            const isActive = (target !== '/') ? pathname.includes(target) : pathname === target;
             element.classList = cn(baseClass, isActive ? activeClass : inactiveClass);
         };
 
@@ -52,28 +62,36 @@ function NavigationMenuContent({
         window.addEventListener('popstate', handlePathname);
 
         return () => window.removeEventListener('popstate', handlePathname);
-    }, [ baseClass, activeClass, inactiveClass, href, id ]);
+    }, [ baseClass, activeClass, inactiveClass, hrefTarget, id ]);
 
     return (
         <>
             <NavigationMenuLink asChild className={cn(baseClass, inactiveClass)}>
-                <Inertia.Link id={id} href={href}>
-                    {name}
+                <Inertia.Link id={id} href={hrefTarget}>
+                    {data.name}
                 </Inertia.Link>
             </NavigationMenuLink>
         </>
     )
 }
 
-export function NavigationBar() {
+export function NavigationBar({
+    navigationData = navigation,
+    ...props
+}: React.ComponentProps<typeof NavigationMenu> & {
+    navigationData?: {
+        name: string,
+        href: string,
+    }[],
+}) {
     return (
         <>
             <div className="flex max-sm:items-center max-sm:justify-center">
-                <NavigationMenu className="w-full rounded-none bg-transparent border-0 shadow-none p-0 mb-4">
+                <NavigationMenu className="w-full rounded-none bg-transparent border-0 shadow-none p-0 mb-4" {...props}>
                     <NavigationMenuList>
-                        {navigation.map((link, index) => (
+                        {navigationData.map((link, index) => (
                             <NavigationMenuItem key={index}>
-                                <NavigationMenuContent name={link.name} href={link.href} />
+                                <NavigationMenuContent data={link} />
                             </NavigationMenuItem>
                         ))}
                     </NavigationMenuList>

@@ -10,7 +10,14 @@
         },
         {
             "name": "blog",
-            "href": "/blog"
+            "href": "/blog",
+            "resource": {
+                "controller": "App\\Http\\Controllers\\PostController",
+                "names": "posts",
+                "parameters": {
+                    "blog": "post"
+                }
+            }
         }
     ]
 }

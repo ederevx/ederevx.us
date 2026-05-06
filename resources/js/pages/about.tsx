@@ -12,7 +12,7 @@ import {
     CardSectionLayout,
     CollapsibleSectionLayout,
     HeaderSectionLayout,
-} from "./common/layout";
+} from "@/pages/common/layout";
 
 export default function About() {
     const metaProps = [

@@ -10,6 +10,9 @@ class Post extends Model
     /** @use HasFactory<\Database\Factories\PostFactory> */
     use HasFactory;
 
+    // Additional attributes needed by frontend
+    protected $appends = ['excerpt'];
+
     public function topics()
     {
         return $this->belongsToMany(Topic::class);

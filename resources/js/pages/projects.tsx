@@ -5,7 +5,7 @@ import { projects } from "@/data/projects.json";
 import { 
     BaseLayout,
     HeaderSectionLayout,
-} from "./common/layout";
+} from "@/pages/common/layout";
 
 export default function Projects() {
     const metaProps = [

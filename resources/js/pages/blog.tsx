@@ -1,9 +1,21 @@
+import { Separator } from "@/components/ui/separator";
+
 import { 
     BaseLayout,
     HeaderSectionLayout,
-} from "./common/layout";
+} from "@/pages/common/layout";
 
-export default function Blog() {
+import type * as Types from "@/pages/common/types";
+
+import { dateFormat } from "@/pages/common/utils";
+
+import * as Posts from "@/routes/posts/index";
+
+export default function Blog({ 
+    posts,
+}: { 
+    posts: Types.Post[],
+}) {
     const metaProps = [
         { name: "description", content: "Edrick Sinsuan's personal blog" },
         { name: "keywords", content: "Blog, Programming Projects, Computer Programming, Engineering"},
@@ -13,7 +25,20 @@ export default function Blog() {
     return (
         <>
             <BaseLayout title="Blog" metaProps={metaProps}>
-                <HeaderSectionLayout title="Work in progress!" />
+                {posts && posts.map((post, index) => 
+                    <a
+                        key={index}
+                        href={Posts.show.url(post.id)}
+                    >
+                        <HeaderSectionLayout 
+                            title={post.title}
+                            subheader={dateFormat(post.created_at)}
+                            description={post.excerpt}
+                            className="p-4 hover:bg-accent hover:text-accent-foreground transition-colors duration-200"
+                        />
+                        <Separator />
+                    </a>
+                )}
             </BaseLayout>
         </>
     );
