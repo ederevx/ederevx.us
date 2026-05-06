@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use Illuminate\Support\Str;
+
 class Post extends Model
 {
     /** @use HasFactory<\Database\Factories\PostFactory> */
@@ -12,6 +14,14 @@ class Post extends Model
 
     // Additional attributes needed by frontend
     protected $appends = ['excerpt'];
+
+    protected static function booted()
+    {
+        static::saving(function ($model) {
+            // Generate slug from title whenever saving
+            $model->slug = Str::slug($model->title); 
+        });
+    }
 
     public function topics()
     {
