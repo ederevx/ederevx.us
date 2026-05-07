@@ -25,7 +25,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        return Inertia::render('blog/create', [
+        return Inertia::render('blog/modify', [
             'post' => new Post(),
         ]);
     }
@@ -67,7 +67,7 @@ class PostController extends Controller
     {
         $post->update($request->safe()->all());
 
-        return back();
+        return redirect()->route('posts.show', $post);
     }
 
     /**

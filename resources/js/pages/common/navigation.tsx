@@ -30,7 +30,7 @@ function NavigationMenuContent({
         "transition-all duration-300"
     );
     // Responsive text size for various screens
-    const inactiveClass = "text-muted text-md max-sm:text-lg";
+    const inactiveClass = "text-muted-foreground text-base max-sm:text-lg";
     const activeClass = "active text-primary text-lg max-sm:text-2xl";
     // Use relative href to allow pathname detection
     const hrefTarget = data.href;

@@ -23,22 +23,22 @@ import { cn } from "@/lib/utils";
 import { NavigationBar } from "./navigation";
 
 export function CardSectionLayout({
-    title,
+    cardTitle,
     description,
     children,
     className,
     ...props
 }: React.ComponentProps<typeof Card> & { 
-    title: string,
-    description: (string | string[]),
+    cardTitle: React.ReactNode,
+    description?: (React.ReactNode | React.ReactNode[]),
     children?: React.ReactNode,
     className?: string,
 }) {
     return (
-        <>
-            <Card className={cn("w-full bg-background mt-4", className)} {...props}>
-                <CardHeader>
-                    <CardTitle>{title}</CardTitle>
+        <Card className={cn("w-full bg-background mt-4", className)} {...props}>
+            <CardHeader>
+                <CardTitle>{cardTitle}</CardTitle>
+                {description &&
                     <CardDescription>
                         {Array.isArray(description) ? 
                             description.map((desc, i) => 
@@ -46,10 +46,10 @@ export function CardSectionLayout({
                             ) : description
                         }
                     </CardDescription>
-                </CardHeader>
-                {children && <CardContent>{children}</CardContent>}
-            </Card>
-        </>
+                }
+            </CardHeader>
+            {children && <CardContent>{children}</CardContent>}
+        </Card>
     );
 }
 
@@ -59,44 +59,42 @@ export function CollapsibleSectionLayout({
     className,
     ...props
 }: React.ComponentProps<typeof Collapsible> & {
-    title: string,
+    title: React.ReactNode,
     children: React.ReactNode,
     className?: string,
 }) {
     const [isOpen, setIsOpen] = React.useState(false);
 
     return (
-        <>
-            <Collapsible
-                className={cn("w-full mt-4", className)}
-                open={isOpen}
-                onOpenChange={setIsOpen}
-                {...props}
-            >
-                <CollapsibleTrigger className={cn(buttonVariants({ variant: "outline", size: "lg" }), "transition-transform")}>
-                    {title}
-                    <ArrowDownIcon 
-                        data-state={isOpen ? "open" : "closed"}
-                        className="ml-2 h-4 w-4 transition-transform data-[state=open]:rotate-180" 
-                    />
-                </CollapsibleTrigger>
-                <CollapsibleContent
+        <Collapsible
+            className={cn("w-full mt-4", className)}
+            open={isOpen}
+            onOpenChange={setIsOpen}
+            {...props}
+        >
+            <CollapsibleTrigger className={cn(buttonVariants({ variant: "outline", size: "lg" }), "transition-transform")}>
+                {title}
+                <ArrowDownIcon 
                     data-state={isOpen ? "open" : "closed"}
-                    className={cn("duration-200",
-                        "data-[state=closed]:animate-collapsible-up",
-                        "data-[state=open]:animate-collapsible-down")}
+                    className="ml-2 h-4 w-4 transition-transform data-[state=open]:rotate-180" 
+                />
+            </CollapsibleTrigger>
+            <CollapsibleContent
+                data-state={isOpen ? "open" : "closed"}
+                className={cn("duration-200",
+                    "data-[state=closed]:animate-collapsible-up",
+                    "data-[state=open]:animate-collapsible-down")}
+            >
+                <div
+                    data-state={isOpen ? "open" : "closed"}
+                    className={cn("duration-300",
+                        "data-[state=closed]:animate-out data-[state=closed]:fade-out-0",
+                        "data-[state=open]:animate-in data-[state=open]:fade-in-0")}
                 >
-                    <div
-                        data-state={isOpen ? "open" : "closed"}
-                        className={cn("duration-300",
-                            "data-[state=closed]:animate-out data-[state=closed]:fade-out-0",
-                            "data-[state=open]:animate-in data-[state=open]:fade-in-0")}
-                    >
-                        {children}
-                    </div>
-                </CollapsibleContent>
-            </Collapsible>
-        </>
+                    {children}
+                </div>
+            </CollapsibleContent>
+        </Collapsible>
     );
 }
 
@@ -109,37 +107,35 @@ export function HeaderSectionLayout({
     className,
     ...props
 }: React.ComponentProps<"div"> & {
-    title: string,
-    header?: string,
-    subheader?: string,
-    description?: string,
+    title: React.ReactNode,
+    header?: React.ReactNode,
+    subheader?: React.ReactNode,
+    description?: React.ReactNode,
     children?: React.ReactNode,
     className?: string,
 }) {
     return (
-        <>
-            <div className={cn("w-full mt-4", className)} {...props}>
-                <div className="flex flex-col gap-2">
-                    <h1 className="text-3xl mb-4">{title}</h1>
-                    {header &&
-                        <h2 className="text-lg text-primary">
-                            {header}
-                        </h2>
-                    }
-                    {subheader &&
-                        <p className="text-md text-muted-foreground">
-                            {subheader}
-                        </p>
-                    }
-                    {description &&
-                        <p className="text-sm text-primary mt-4">
-                            {description}
-                        </p>
-                    }
-                    {children}
-                </div>
+        <div className={cn("w-full mt-4", className)} {...props}>
+            <div className="flex flex-col gap-2">
+                <h1 className="text-3xl mb-4">{title}</h1>
+                {header &&
+                    <h2 className="text-lg text-primary">
+                        {header}
+                    </h2>
+                }
+                {subheader &&
+                    <p className="text-base text-muted-foreground">
+                        {subheader}
+                    </p>
+                }
+                {description &&
+                    <p className="text-sm text-primary mt-4">
+                        {description}
+                    </p>
+                }
+                {children}
             </div>
-        </>
+        </div>
     )
 }
 
@@ -149,7 +145,7 @@ export function BaseLayout({
     metaProps,
     ...props
 }: React.ComponentProps<"main"> & {
-    title: string,
+    title: React.ReactNode,
     children?: React.ReactNode,
     metaProps?: {name: string, content: string}[],
 }) {
@@ -179,14 +175,14 @@ export function BaseLayout({
                     <meta name={prop.name} content={prop.content} />
                 )}
             </Head>
-            <main className="bg-background text-foreground min-h-screen transition-all duration-300" {...props}>
-                <section className="flex w-full h-full min-h-screen">
-                    <div className="container m-10">
+            <main className="bg-background text-foreground transition-all duration-300" {...props}>
+                <section className="grid w-full h-full min-h-screen">
+                    <div className="flex flex-col container m-10">
                         <NavigationBar aria-label="primary-nav" />
-                        {children && <div className="flex flex-col gap-2 animate-in fade-in duration-500">{children}</div>}
+                        {children && <div className="flex flex-col grow gap-2 animate-in fade-in duration-500">{children}</div>}
                     </div>
                 </section>
-                <footer className="w-full py-4">
+                <footer className="grid w-full py-4">
                     <div className="container mx-auto text-center text-sm text-gray-500">
                         &copy; {new Date().getFullYear()} Edrick Sinsuan. Made using Laravel + React. All rights reserved.
                     </div>

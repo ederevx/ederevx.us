@@ -11,4 +11,5 @@ export type Post = {
 
     // Appended attributes
     excerpt: string,
+    exists: boolean,
 }

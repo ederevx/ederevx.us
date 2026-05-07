@@ -40,7 +40,7 @@ export default function About() {
                                 target="_blank"
                             >
                                 <CardSectionLayout
-                                    title={contact.title} 
+                                    cardTitle={contact.title} 
                                     description={contact.description}
                                     className="hover:bg-accent hover:text-accent-foreground transition-colors duration-200"
                                 />
@@ -54,7 +54,7 @@ export default function About() {
                             {workExperience.map((experience, index) => (
                                 <CardSectionLayout 
                                     key={index}
-                                    title={experience.title} 
+                                    cardTitle={experience.title} 
                                     description={experience.description}
                                 >
                                     <CollapsibleSectionLayout title="responsibilities">
@@ -67,7 +67,7 @@ export default function About() {
                             {education.map((education, index) => (
                                 <CardSectionLayout
                                     key={index}
-                                    title={education.title} 
+                                    cardTitle={education.title} 
                                     description={education.description}
                                 />
                             ))}

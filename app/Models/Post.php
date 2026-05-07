@@ -12,16 +12,16 @@ class Post extends Model
     /** @use HasFactory<\Database\Factories\PostFactory> */
     use HasFactory;
 
-    // Additional attributes needed by frontend
-    protected $appends = ['excerpt'];
+    protected $fillable = [
+        'content',
+        'title',
+    ];
 
-    protected static function booted()
-    {
-        static::saving(function ($model) {
-            // Generate slug from title whenever saving
-            $model->slug = Str::slug($model->title); 
-        });
-    }
+    // Additional attributes needed by frontend
+    protected $appends = [
+        'excerpt', 
+        'exists',
+    ];
 
     public function topics()
     {
@@ -48,5 +48,24 @@ class Post extends Model
         }
 
         return $excerpt;
+    }
+
+    /**
+     * Expose the model's exists attribute.
+     * 
+     * @return boolean
+     */
+    public function getExistsAttribute()
+    {
+        return $this->exists;
+    }
+
+    /**
+     * Set the slug automatically based on the title value.
+     */
+    public function setTitleAttribute($value)
+    {
+        $this->attributes['title'] = $value;
+        $this->attributes['slug'] = Str::slug($value);
     }
 }

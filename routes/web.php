@@ -15,8 +15,4 @@ foreach ($textData['navigation'] as $link) {
             ->parameters($link['resource']['parameters'] ?? []);
     else
         Route::inertia($link['href'], $link['name'])->name($link['name']);
-
-    // Route overrides
-    if ($link['name'] === "blog")
-        Route::get('/blog/{post:slug}', [$link['resource']['controller'], 'show'])->name('posts.show');
 }
