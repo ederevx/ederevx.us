@@ -2,26 +2,37 @@
 
 use Illuminate\Support\Facades\Route;
 
-$jsonData = file_get_contents(base_path('resources/js/data/navigation.json'));
-$textData = json_decode($jsonData, true);
+// Routes not visible in the navbar
+Route::resource('/admin/blog', App\Http\Controllers\PostController::class)
+    ->names("posts")
+    ->parameters(["blog" => "post"])
+    ->except('index','show')
+    ->middleware('auth');
 
-// Define routes for the website
-foreach ($textData['navigation'] as $link) {
+// Routes visible in the navbar
+$jsonData = file_get_contents(base_path('resources/js/data/navigation.json'));
+$navData = json_decode($jsonData, true);
+foreach ($navData['navigation'] as $link) {
     // Resource routes must have a defined controller
     if (isset($link['resource'])) {
-        // Route overrides
-        if ($link['name'] === "blog")
-            Route::get('/blog/{post}-{slug}', [$link['resource']['controller'], 'show'])
-                ->name('posts.show');
-
-        Route::resource($link['href'], $link['resource']['controller'])
+        $resource = Route::resource($link['href'], $link['resource']['controller'])
             // Optional parameters to customize the resource
             ->names($link['resource']['names'] ?? $link['name'])
-            ->parameters($link['resource']['parameters'] ?? [])
-            // We override this as shown above
-            ->except([$link['name'] === "blog" ? 'show' : '']);
+            ->parameters($link['resource']['parameters'] ?? []);
+
+        // Route overrides
+        if ($link['name'] === "blog") {
+            Route::get('/blog/{post}-{slug}', [$link['resource']['controller'], 'show'])
+                ->name('posts.show');
+            $resource->only(['index']);
+        }
     } else if (isset($link['get'])) {
-        Route::get($link['href'], $link['get']['controller']);
+        $get = Route::get($link['href'], $link['get']['controller']);
+
+        // Route overrides
+        if ($link['name'] === "admin") {
+            $get->middleware('auth');
+        }
     } else {
         Route::inertia($link['href'], $link['name'])->name($link['name']);
     }
