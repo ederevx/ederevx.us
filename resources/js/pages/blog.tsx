@@ -28,7 +28,7 @@ export default function Blog({
                 {posts && posts.map((post, index) => 
                     <a
                         key={index}
-                        href={Posts.show.url(post.slug)}
+                        href={Posts.show.url({post: post, slug: post.slug})}
                     >
                         <HeaderSectionLayout 
                             title={post.title}

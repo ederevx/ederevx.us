@@ -67,7 +67,7 @@ class PostController extends Controller
     {
         $post->update($request->safe()->all());
 
-        return redirect()->route('posts.show', $post);
+        return redirect()->route('posts.show', [$post, $post->slug]);
     }
 
     /**

@@ -19,18 +19,13 @@ class Post extends Model
 
     // Additional attributes needed by frontend
     protected $appends = [
-        'excerpt', 
+        'excerpt',
         'exists',
     ];
 
     public function topics()
     {
         return $this->belongsToMany(Topic::class);
-    }
-
-    public function getRouteKeyName()
-    {
-        return 'slug';
     }
 
     /**

@@ -8,11 +8,19 @@ $textData = json_decode($jsonData, true);
 // Define routes for the website
 foreach ($textData['navigation'] as $link) {
     // Resource routes must have a defined controller
-    if (isset($link['resource']))
+    if (isset($link['resource'])) {
+        // Route overrides
+        if ($link['name'] === "blog")
+            Route::get('/blog/{post}-{slug}', [$link['resource']['controller'], 'show'])
+                ->name('posts.show');
+
         Route::resource($link['href'], $link['resource']['controller'])
             // Optional parameters to customize the resource
             ->names($link['resource']['names'] ?? $link['name'])
-            ->parameters($link['resource']['parameters'] ?? []);
-    else
+            ->parameters($link['resource']['parameters'] ?? [])
+            // We override this as shown above
+            ->except([$link['name'] === "blog" ? 'show' : '']);
+    } else {
         Route::inertia($link['href'], $link['name'])->name($link['name']);
+    }
 }

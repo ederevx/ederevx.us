@@ -63,7 +63,7 @@ export default function Modify({
                 title: post.title,
                 content: post.content,
             },
-            action: Posts.update.form(post.slug),
+            action: Posts.update.form(post),
         },
     } : {
         headerTitle: "Create Post",
