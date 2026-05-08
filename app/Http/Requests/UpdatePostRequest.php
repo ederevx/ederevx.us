@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdatePostRequest extends FormRequest
 {
@@ -23,7 +24,10 @@ class UpdatePostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|unique:posts,title,' . $this->post->title,
+            'title' => [
+                'required',
+                Rule::unique('posts')->ignore($this->post->id),
+            ],
             'content' => 'required',
         ];
     }
