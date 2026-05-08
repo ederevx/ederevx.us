@@ -1,6 +1,4 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-
-import { Form } from '@inertiajs/react'
+import { Form, usePage } from '@inertiajs/react'
 
 import * as React from "react";
 
@@ -29,20 +27,18 @@ import {
     CardSectionLayout,
     HeaderSectionLayout,
 } from "@/pages/common/layout";
-
 import type * as Types from "@/pages/common/types";
 
 import * as Posts from "@/routes/posts/index";
 
+// These will be checked before sending the data to the server with similar or equivalent checks.
 const formSchema = z.object({
-  title: z
-    .string()
-    .min(5, "Title must be at least 5 characters.")
-    .max(64, "Title must be at most 64 characters."),
-  content: z
-    .string()
-    .min(10, "Content must be at least 10 characters.")
-})
+    title: z.string()
+        .min(5, "Title must be at least 5 characters")
+        .max(64, "Title must be at most 64 characters"),
+    content: z.string()
+        .min(10, "Content must be at least 10 characters"),
+});
 
 export default function Modify({ 
     post,
@@ -83,18 +79,11 @@ export default function Modify({
     };
 
     const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
         defaultValues: getProps().form.default,
     });
 
-    const onSubmit = (data: z.infer<typeof formSchema>) => {
-        console.log(data);
-        console.log(getProps())
-    };
-
-    React.useEffect(() => {
-
-    },[]);
+    // Retrieve errors received from server validation
+    const { errors } = usePage().props;
 
     return (
         <BaseLayout title="Blog" metaProps={metaProps}>
@@ -104,7 +93,27 @@ export default function Modify({
             <Separator />
             <Form
                 id={formIds.form}
-                onSubmit={form.handleSubmit(onSubmit)}
+                onBefore={({ data }) => {
+                    const zState = formSchema.safeParse(data);
+
+                    if (zState.success) {
+                        return true;
+                    }
+
+                    const { fieldErrors } = z.flattenError(zState.error);
+
+                    (Object.keys(fieldErrors) as 
+                        Array<keyof typeof fieldErrors>
+                    ).forEach(field => {
+                        const errorMessage = fieldErrors[field]?.shift();
+
+                        if (errorMessage) {
+                            form.setError(field, {message: errorMessage});
+                        }
+                    });
+
+                    return false;
+                }}
                 {...getProps().form.action}
             >
                 <FieldGroup className="p-4">
@@ -131,7 +140,7 @@ export default function Modify({
                                             id={formIds.title}
                                             aria-invalid={fieldState.invalid}
                                             autoComplete="off"
-                                            {... field}
+                                            {...field}
                                         />
                                         <InputGroupAddon align="block-end">
                                             <InputGroupText className="tabular-nums">
@@ -139,10 +148,10 @@ export default function Modify({
                                             </InputGroupText>
                                         </InputGroupAddon>
                                     </InputGroup>
-                                    {fieldState.invalid && 
-                                        <FieldError errors={[fieldState.error]} />
+                                    {(errors.title || fieldState.invalid)  &&
+                                        <FieldError errors={[fieldState.error]}>{errors.title}</FieldError>
                                     }
-                                </CardSectionLayout>
+                                    </CardSectionLayout>
                             </Field>
                         )}
                     />
@@ -169,7 +178,7 @@ export default function Modify({
                                             id={formIds.content}
                                             aria-invalid={fieldState.invalid}
                                             className="min-h-24"
-                                            {... field}
+                                            {...field}
                                         />
                                         <InputGroupAddon align="block-end">
                                             <InputGroupText className="tabular-nums">
@@ -177,8 +186,8 @@ export default function Modify({
                                             </InputGroupText>
                                         </InputGroupAddon>
                                     </InputGroup>
-                                    {fieldState.invalid && 
-                                        <FieldError errors={[fieldState.error]} />
+                                    {(errors.content || fieldState.invalid)  &&
+                                        <FieldError errors={[fieldState.error]}>{errors.content}</FieldError>
                                     }
                                 </CardSectionLayout>
                             </Field>
