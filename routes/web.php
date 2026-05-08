@@ -20,6 +20,8 @@ foreach ($textData['navigation'] as $link) {
             ->parameters($link['resource']['parameters'] ?? [])
             // We override this as shown above
             ->except([$link['name'] === "blog" ? 'show' : '']);
+    } else if (isset($link['get'])) {
+        Route::get($link['href'], $link['get']['controller']);
     } else {
         Route::inertia($link['href'], $link['name'])->name($link['name']);
     }

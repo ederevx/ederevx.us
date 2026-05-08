@@ -18,6 +18,13 @@
                     "blog": "post"
                 }
             }
+        },
+        {
+            "name": "admin",
+            "href": "/admin",
+            "get": {
+                "controller": "App\\Http\\Controllers\\Admin\\HomeController"
+            }
         }
     ]
 }
