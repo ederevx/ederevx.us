@@ -1,3 +1,5 @@
+import * as Inertia from "@inertiajs/react";
+
 import { Separator } from "@/components/ui/separator";
 
 import { 
@@ -26,7 +28,7 @@ export default function Blog({
         <>
             <BaseLayout title="Blog" metaProps={metaProps}>
                 {posts && posts.map((post, index) => 
-                    <a
+                    <Inertia.Link
                         key={index}
                         href={Posts.show.url([post, post.slug])}
                     >
@@ -37,7 +39,7 @@ export default function Blog({
                             className="p-4 hover:bg-accent hover:text-accent-foreground transition-colors duration-200"
                         />
                         <Separator />
-                    </a>
+                    </Inertia.Link>
                 )}
             </BaseLayout>
         </>
