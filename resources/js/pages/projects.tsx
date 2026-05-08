@@ -24,7 +24,7 @@ export default function Projects() {
                             target="_blank"
                         >
                             <HeaderSectionLayout
-                                title={project.title}
+                                layoutTitle={project.title}
                                 header={project.header}
                                 subheader={project.subheader}
                                 className="p-4 hover:bg-accent hover:text-accent-foreground transition-colors duration-200"

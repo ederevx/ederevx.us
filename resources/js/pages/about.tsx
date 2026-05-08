@@ -27,12 +27,12 @@ export default function About() {
                 <div className="flex flex-row flex-wrap gap-4">
                     <div className="max-w-2xl w-full">
                     <HeaderSectionLayout
-                        title={aboutIntro.name}
+                        layoutTitle={aboutIntro.name}
                         header={aboutIntro.title}
                         subheader={aboutIntro.location}
                         description={aboutIntro.overview}
                     />
-                    <CollapsibleSectionLayout title="contact">
+                    <CollapsibleSectionLayout layoutTitle="contact">
                         {contact.map((contact, index) => (
                             <a 
                                 key={index} 
@@ -40,7 +40,7 @@ export default function About() {
                                 target="_blank"
                             >
                                 <CardSectionLayout
-                                    cardTitle={contact.title} 
+                                    layoutTitle={contact.title} 
                                     description={contact.description}
                                     className="hover:bg-accent hover:text-accent-foreground transition-colors duration-200"
                                 />
@@ -50,24 +50,24 @@ export default function About() {
                     </div>
                     <Separator className="max-w-2xl min-2xl:hidden" />
                     <div className="max-w-2xl w-full">
-                        <CollapsibleSectionLayout title="work experience">
+                        <CollapsibleSectionLayout layoutTitle="work experience">
                             {workExperience.map((experience, index) => (
                                 <CardSectionLayout 
                                     key={index}
-                                    cardTitle={experience.title} 
+                                    layoutTitle={experience.title} 
                                     description={experience.description}
                                 >
-                                    <CollapsibleSectionLayout title="responsibilities">
+                                    <CollapsibleSectionLayout layoutTitle="responsibilities">
                                         <ListContent items={experience.responsibilities} />
                                     </CollapsibleSectionLayout>
                                 </CardSectionLayout>
                             ))}
                         </CollapsibleSectionLayout>
-                        <CollapsibleSectionLayout title="education">
+                        <CollapsibleSectionLayout layoutTitle="education">
                             {education.map((education, index) => (
                                 <CardSectionLayout
                                     key={index}
-                                    cardTitle={education.title} 
+                                    layoutTitle={education.title} 
                                     description={education.description}
                                 />
                             ))}

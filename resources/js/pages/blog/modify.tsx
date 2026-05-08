@@ -53,7 +53,7 @@ export default function Modify({
 
     const getProps = () => post.exists ? 
     {
-        headerTitle: "Modify Post",
+        layoutTitle: "Modify Post",
         form: {
             default: {
                 title: post.title,
@@ -62,7 +62,7 @@ export default function Modify({
             action: Posts.update.form(post),
         },
     } : {
-        headerTitle: "Create Post",
+        layoutTitle: "Create Post",
         form: {
             default: {
                 title: "",
@@ -86,9 +86,9 @@ export default function Modify({
     const { errors } = usePage().props;
 
     return (
-        <BaseLayout title="Blog" metaProps={metaProps}>
+        <BaseLayout title={getProps().layoutTitle} metaProps={metaProps}>
             <HeaderSectionLayout
-                title={getProps().headerTitle}
+                layoutTitle={getProps().layoutTitle}
             />
             <Separator />
             <Form
@@ -126,7 +126,7 @@ export default function Modify({
                                 className="my-2"
                             >
                                 <CardSectionLayout
-                                    cardTitle={(
+                                    layoutTitle={(
                                         <FieldLabel 
                                             htmlFor={formIds.title}
                                             className="text-lg"
@@ -164,7 +164,7 @@ export default function Modify({
                                 className="my-2"
                             >
                                 <CardSectionLayout
-                                    cardTitle={
+                                    layoutTitle={
                                         <FieldLabel 
                                             htmlFor={formIds.content}
                                             className="text-lg"
@@ -195,7 +195,7 @@ export default function Modify({
                     />
                     <Field orientation="horizontal">
                         <CardSectionLayout 
-                            cardTitle={
+                            layoutTitle={
                                 <p className="text-lg">Actions</p>
                             }
                         >

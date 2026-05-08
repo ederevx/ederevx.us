@@ -20,9 +20,9 @@ export default function Post({
 
     return (
         <>
-            <BaseLayout title="Blog" metaProps={metaProps}>
+            <BaseLayout title={post.title} metaProps={metaProps}>
                 <HeaderSectionLayout
-                    title={post.title}
+                    layoutTitle={post.title}
                     subheader={dateFormat(post.created_at)}
                     description={post.content}
                 />

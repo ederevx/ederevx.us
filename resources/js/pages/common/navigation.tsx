@@ -15,12 +15,11 @@ import { navigation } from "@/data/navigation.json";
 import { cn } from "@/lib/utils";
 
 function NavigationMenuContent({
-    data,
+    name,
+    href,
 }: {
-    data: { 
-        name: string, 
-        href: string, 
-    },
+    name: string,
+    href: string,
 }) {
     // Generate unique ID per nav link
     const id = React.useId();
@@ -33,7 +32,7 @@ function NavigationMenuContent({
     const inactiveClass = "text-muted-foreground text-base max-sm:text-lg";
     const activeClass = "active text-primary text-lg max-sm:text-2xl";
     // Use relative href to allow pathname detection
-    const hrefTarget = data.href;
+    const hrefTarget = href;
 
     React.useEffect(() => {
         const element = document.getElementById(id);
@@ -68,7 +67,7 @@ function NavigationMenuContent({
         <>
             <NavigationMenuLink asChild className={cn(baseClass, inactiveClass)}>
                 <Inertia.Link id={id} href={hrefTarget}>
-                    {data.name}
+                    {name}
                 </Inertia.Link>
             </NavigationMenuLink>
         </>
@@ -91,7 +90,7 @@ export function NavigationBar({
                     <NavigationMenuList>
                         {navigationData.map((link, index) => (
                             <NavigationMenuItem key={index}>
-                                <NavigationMenuContent data={link} />
+                                <NavigationMenuContent {...link} />
                             </NavigationMenuItem>
                         ))}
                     </NavigationMenuList>

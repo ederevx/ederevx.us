@@ -31,7 +31,7 @@ export default function Blog({
                         href={Posts.show.url([post, post.slug])}
                     >
                         <HeaderSectionLayout 
-                            title={post.title}
+                            layoutTitle={post.title}
                             subheader={dateFormat(post.created_at)}
                             description={post.excerpt}
                             className="p-4 hover:bg-accent hover:text-accent-foreground transition-colors duration-200"

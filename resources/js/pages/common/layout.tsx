@@ -23,13 +23,13 @@ import { cn } from "@/lib/utils";
 import { NavigationBar } from "./navigation";
 
 export function CardSectionLayout({
-    cardTitle,
+    layoutTitle,
     description,
     children,
     className,
     ...props
 }: React.ComponentProps<typeof Card> & { 
-    cardTitle: React.ReactNode,
+    layoutTitle: React.ReactNode,
     description?: (React.ReactNode | React.ReactNode[]),
     children?: React.ReactNode,
     className?: string,
@@ -37,7 +37,7 @@ export function CardSectionLayout({
     return (
         <Card className={cn("w-full bg-background mt-4", className)} {...props}>
             <CardHeader>
-                <CardTitle>{cardTitle}</CardTitle>
+                <CardTitle>{layoutTitle}</CardTitle>
                 {description &&
                     <CardDescription>
                         {Array.isArray(description) ? 
@@ -54,12 +54,12 @@ export function CardSectionLayout({
 }
 
 export function CollapsibleSectionLayout({
-    title,
+    layoutTitle,
     children,
     className,
     ...props
 }: React.ComponentProps<typeof Collapsible> & {
-    title: React.ReactNode,
+    layoutTitle: React.ReactNode,
     children: React.ReactNode,
     className?: string,
 }) {
@@ -73,7 +73,7 @@ export function CollapsibleSectionLayout({
             {...props}
         >
             <CollapsibleTrigger className={cn(buttonVariants({ variant: "outline", size: "lg" }), "transition-transform")}>
-                {title}
+                {layoutTitle}
                 <ArrowDownIcon 
                     data-state={isOpen ? "open" : "closed"}
                     className="ml-2 h-4 w-4 transition-transform data-[state=open]:rotate-180" 
@@ -99,7 +99,7 @@ export function CollapsibleSectionLayout({
 }
 
 export function HeaderSectionLayout({
-    title,
+    layoutTitle,
     header,
     subheader,
     description,
@@ -107,7 +107,7 @@ export function HeaderSectionLayout({
     className,
     ...props
 }: React.ComponentProps<"div"> & {
-    title: React.ReactNode,
+    layoutTitle: React.ReactNode,
     header?: React.ReactNode,
     subheader?: React.ReactNode,
     description?: React.ReactNode,
@@ -117,7 +117,7 @@ export function HeaderSectionLayout({
     return (
         <div className={cn("w-full mt-4", className)} {...props}>
             <div className="flex flex-col gap-2">
-                <h1 className="text-3xl mb-4">{title}</h1>
+                <h1 className="text-3xl mb-4">{layoutTitle}</h1>
                 {header &&
                     <h2 className="text-lg text-primary">
                         {header}
