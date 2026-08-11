@@ -20,6 +20,9 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 /auth.json
+/docker/web/ssl
+/docker/web/htpasswd
+/database/data
 /.fleet
 /.idea
 /.nova
