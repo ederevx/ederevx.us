@@ -1,0 +1,20 @@
+# Repo-level aider config for ederevx.us. Layers on top of ~/.aider.conf.yml
+# (model/api-base/commit-attribution settings there still apply — only
+# `read:` is redefined here).
+#
+# IMPORTANT: aider's config-file loader does NOT merge `read:` across layers
+# — whichever config file wins precedence replaces the whole list, it doesn't
+# append to the global one (confirmed empirically 2026-08-16, see
+# ~/.claude/projects/-home-ederevx/memory/reference_agent_memory_shared.md).
+# So this list repeats the global index files AND adds this project's
+# detail files — dropping the global lines here would silently lose them,
+# not just fail to add to them.
+read:
+  - /home/ederevx/agent-memory/MEMORY.md
+  - /home/ederevx/agent-memory/PROTOCOL.md
+  - /home/ederevx/.aider/memory/MEMORY.md
+  - /home/ederevx/.claude/projects/-home-ederevx/memory/MEMORY.md
+  - /home/ederevx/.claude/projects/-home-ederevx/memory/project_ederevx_us_docker_migration.md
+  - /home/ederevx/.claude/projects/-home-ederevx/memory/feedback_docker_self_contained_images.md
+  - /home/ederevx/.claude/projects/-home-ederevx/memory/user_ederevx_infra.md
+  - /home/ederevx/.claude/projects/-home-ederevx/memory/feedback_commit_convention.md
