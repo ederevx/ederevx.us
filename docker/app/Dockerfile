@@ -26,7 +26,7 @@ RUN npm ci
 RUN npm run build
 
 # ---- Final stage: PHP-FPM runtime ----
-FROM php:8.4-fpm-alpine
+FROM php:8.4.27-fpm-alpine@sha256:8ce34c869fae0f8da2c82d8aeda222f0782e8e5ae2b370fb43cbad84e9e2ea55
 
 RUN set -eux; \
     apk add --no-cache oniguruma sqlite-libs libxml2 curl; \
