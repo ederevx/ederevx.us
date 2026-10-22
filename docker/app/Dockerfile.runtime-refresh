@@ -1,0 +1,31 @@
+# syntax=docker/dockerfile:1
+
+# Rebuilds the running application image on a patched PHP runtime without
+# touching its payload: the application files, dependencies, built assets and
+# baked configuration are copied verbatim from the deployed image, which is the
+# artifact of record because no repository revision reproduces it.
+#
+#   docker build --no-cache \
+#     --build-arg DEPLOYED_IMAGE=ederevxus-app:rollback-<release> \
+#     -f docker/app/Dockerfile.runtime-refresh \
+#     -t ederevxus-app:runtime-candidate-<release> .
+
+ARG DEPLOYED_IMAGE
+FROM ${DEPLOYED_IMAGE} AS deployed
+
+FROM php:8.4.27-fpm-alpine@sha256:8ce34c869fae0f8da2c82d8aeda222f0782e8e5ae2b370fb43cbad84e9e2ea55
+
+RUN set -eux; \
+    apk add --no-cache oniguruma sqlite-libs libxml2 curl; \
+    apk add --no-cache --virtual .build-deps $PHPIZE_DEPS oniguruma-dev sqlite-dev libxml2-dev curl-dev; \
+    docker-php-ext-install -j"$(nproc)" pdo_sqlite mbstring xml bcmath opcache curl; \
+    apk del .build-deps
+
+WORKDIR /var/www/html
+
+COPY --from=deployed /var/www/html/ /var/www/html/
+COPY --from=deployed /usr/local/bin/entrypoint.sh /usr/local/bin/entrypoint.sh
+
+EXPOSE 9000
+ENTRYPOINT ["entrypoint.sh"]
+CMD ["php-fpm"]
